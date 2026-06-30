@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react'
+import type { SyntheticEvent } from 'react'
 import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
@@ -32,7 +32,7 @@ export function LoginPage() {
     return <Navigate to={redirectTo} replace />
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
     setMessage('')
