@@ -1,12 +1,14 @@
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
+
 type ButtonProps = {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
+} & ButtonHTMLAttributes<HTMLButtonElement>
 
 export function Button({ children, className = '', ...props }: ButtonProps) {
   return (
     <button
-      className={`rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sky-700 ${className}`}
+      className={`rounded-lg bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 ${className}`}
       {...props}
     >
       {children}
