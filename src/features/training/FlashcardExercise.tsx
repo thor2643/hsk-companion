@@ -149,6 +149,15 @@ export function FlashcardExercise() {
     setError("");
   }
 
+  function cancelExercise() {
+    setCurrentIndex(0);
+    setResults([]);
+    setIsAnswerVisible(false);
+    setHasSavedResults(false);
+    setStatus("idle");
+    setError("");
+  }
+
   function gradeCurrentCard(grade: ReviewGrade) {
     if (!currentCard) {
       return;
@@ -227,28 +236,30 @@ export function FlashcardExercise() {
         </p>
       ) : null}
 
-      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-slate-950">
-              Flashcards
-            </h3>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              Practice {cards.length} random cards from vocabulary, sentences,
-              and grammar notes.
-            </p>
-            {cards.length < FLASHCARD_COUNT ? (
-              <p className="mt-1 text-xs text-amber-700">
-                Add more study material to reach a full 10-card exercise.
+      {status === "idle" ? (
+        <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-950">
+                Flashcards
+              </h3>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                Practice {cards.length} random cards from vocabulary, sentences,
+                and grammar notes.
               </p>
-            ) : null}
-          </div>
+              {cards.length < FLASHCARD_COUNT ? (
+                <p className="mt-1 text-xs text-amber-700">
+                  Add more study material to reach a full 10-card exercise.
+                </p>
+              ) : null}
+            </div>
 
-          <Button type="button" onClick={startExercise}>
-            {status === "idle" ? "Start exercise" : "Restart"}
-          </Button>
+            <Button type="button" onClick={startExercise}>
+              Start exercise
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {status === "active" && currentCard ? (
         <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
@@ -300,6 +311,23 @@ export function FlashcardExercise() {
                 ))}
               </div>
             )}
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                className="!bg-white !text-slate-700 ring-1 ring-inset ring-slate-300 hover:!bg-stone-100"
+                type="button"
+                onClick={startExercise}
+              >
+                Restart
+              </Button>
+              <Button
+                className="!bg-red-50 !text-red-800 ring-1 ring-inset ring-red-200 hover:!bg-red-100"
+                type="button"
+                onClick={cancelExercise}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </article>
       ) : null}
