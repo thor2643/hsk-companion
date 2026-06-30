@@ -3,7 +3,7 @@ import type { FlashcardReviewResult, TrainingItemType } from "./training.types";
 
 const TABLE_NAME = "review_events";
 
-type ReviewEventRow = {
+export type ReviewEventRow = {
   id: string;
   user_id: string;
   item_id: string;
@@ -50,6 +50,19 @@ function aggregateResults(results: FlashcardReviewResult[]) {
   }
 
   return Array.from(increments.values());
+}
+
+export async function listReviewEvents(userId: string): Promise<ReviewEventRow[]> {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .select("id,user_id,item_id,item_type,correct_count,almost_correct_count,wrong_count")
+    .eq("user_id", userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
 }
 
 export async function saveReviewResults(
