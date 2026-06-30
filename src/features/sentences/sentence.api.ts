@@ -1,15 +1,13 @@
 import { supabase } from "../../lib/supabaseClient";
 import type {
-  VocabularyItem,
-  VocabularyItemInput,
-  VocabularyItemUpdate,
-} from "./vocabulary.types";
+  SentenceItem,
+  SentenceItemInput,
+  SentenceItemUpdate,
+} from "./sentence.types";
 
-const TABLE_NAME = "vocabulary";
+const TABLE_NAME = "sentences";
 
-export async function listVocabulary(
-  userId: string,
-): Promise<VocabularyItem[]> {
+export async function listSentences(userId: string): Promise<SentenceItem[]> {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .select("*")
@@ -24,20 +22,20 @@ export async function listVocabulary(
   return data ?? [];
 }
 
-export async function createVocabularyItem(
+export async function createSentenceItem(
   userId: string,
-  input: VocabularyItemInput,
-): Promise<VocabularyItem> {
+  input: SentenceItemInput,
+): Promise<SentenceItem> {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .insert({
       user_id: userId,
       hanzi: input.hanzi?.trim() ?? "",
       pinyin: input.pinyin.trim(),
-      meaning: input.meaning.trim(),
-      notes: input.notes?.trim() || null,
+      translation: input.translation.trim(),
       hsk_level: input.hsk_level ?? null,
       lesson: input.lesson?.trim() || null,
+      notes: input.notes?.trim() || null,
     })
     .select("*")
     .single();
@@ -49,12 +47,12 @@ export async function createVocabularyItem(
   return data;
 }
 
-export async function updateVocabularyItem(
+export async function updateSentenceItem(
   userId: string,
   itemId: string,
-  input: VocabularyItemUpdate,
-): Promise<VocabularyItem> {
-  const updates: VocabularyItemUpdate = {};
+  input: SentenceItemUpdate,
+): Promise<SentenceItem> {
+  const updates: SentenceItemUpdate = {};
 
   if (input.hanzi !== undefined) {
     updates.hanzi = input.hanzi.trim();
@@ -64,12 +62,8 @@ export async function updateVocabularyItem(
     updates.pinyin = input.pinyin.trim();
   }
 
-  if (input.meaning !== undefined) {
-    updates.meaning = input.meaning.trim();
-  }
-
-  if (input.notes !== undefined) {
-    updates.notes = input.notes.trim();
+  if (input.translation !== undefined) {
+    updates.translation = input.translation.trim();
   }
 
   if (input.hsk_level !== undefined) {
@@ -78,6 +72,10 @@ export async function updateVocabularyItem(
 
   if (input.lesson !== undefined) {
     updates.lesson = input.lesson?.trim() || null;
+  }
+
+  if (input.notes !== undefined) {
+    updates.notes = input.notes.trim();
   }
 
   const { data, error } = await supabase
@@ -96,7 +94,7 @@ export async function updateVocabularyItem(
   return data;
 }
 
-export async function softDeleteVocabularyItem(
+export async function softDeleteSentenceItem(
   userId: string,
   itemId: string,
 ): Promise<void> {

@@ -1,24 +1,24 @@
-export type VocabularyItem = {
+export type SentenceItem = {
   id: string;
   user_id: string;
   hanzi: string;
   pinyin: string;
-  meaning: string;
-  notes: string | null;
+  translation: string;
   hsk_level: number | null;
   lesson: string | null;
+  notes: string | null;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
 };
 
-export type VocabularyItemInput = {
+export type SentenceItemInput = {
   hanzi?: string;
   pinyin: string;
-  meaning: string;
-  notes?: string;
+  translation: string;
   hsk_level?: number | null;
   lesson?: string | null;
+  notes?: string;
 };
 
-export type VocabularyItemUpdate = Partial<VocabularyItemInput>;
+export type SentenceItemUpdate = Partial<SentenceItemInput>;
