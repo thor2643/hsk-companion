@@ -32,12 +32,16 @@ function count(value: number | null) {
   return value ?? 0;
 }
 
+function hanziPinyinLabel(item: { hanzi: string; pinyin: string }) {
+  return [item.hanzi, item.pinyin].filter(Boolean).join(" ");
+}
+
 function vocabularyLabel(item: VocabularyItem) {
-  return item.hanzi || item.pinyin;
+  return hanziPinyinLabel(item);
 }
 
 function sentenceLabel(item: SentenceItem) {
-  return item.hanzi || item.pinyin;
+  return hanziPinyinLabel(item);
 }
 
 function buildDashboardItems(
