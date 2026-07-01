@@ -36,9 +36,8 @@ export function createFlashcards(
     item_id: item.id,
     item_type: "vocabulary",
     title: "Vocabulary",
-    prompt: item.hanzi || item.pinyin,
+    prompt: compactLines([item.hanzi, item.pinyin]),
     answer: compactLines([
-      item.hanzi ? item.pinyin : null,
       item.meaning,
       item.notes,
     ]),
@@ -49,9 +48,8 @@ export function createFlashcards(
     item_id: item.id,
     item_type: "sentence",
     title: "Sentence",
-    prompt: item.hanzi || item.pinyin,
+    prompt: compactLines([item.hanzi, item.pinyin]),
     answer: compactLines([
-      item.hanzi ? item.pinyin : null,
       item.translation,
       item.notes,
     ]),
